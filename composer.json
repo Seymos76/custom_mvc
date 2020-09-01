@@ -1,0 +1,13 @@
+{
+    "name": "seymos/custom_mvc",
+    "description": "A custom MVC website to train working without Symfony, inspired by Symfony",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\src\\": "src/"
+        }
+    }
+}
