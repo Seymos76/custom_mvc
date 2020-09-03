@@ -100,6 +100,19 @@ $dbWriter->write($data);
 $apiWriter = new ClientWriter(new APIWriter());
 $apiWriter->write($data);
 
+/**
+ * Observer
+ */
+$notify = new \App\Observer\Notify();
+$searchEngine = new \App\Observer\SearchEngine();
+
+$articleManager = new \App\Observer\ArticleManager();
+$articleManager->attach($notify);
+$articleManager->attach($searchEngine);
+
+$article = (new \App\Observer\Article())->setTitle("Titre de mon article");
+$articleManager->create($article);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
