@@ -131,10 +131,16 @@ $article = (new Article())->setTitle("Titre de mon article");
  * Dependency Injection
  */
 $alertSender = new AlertSender(new EmailSender());
-$alertSender->alert("Un message par email");
+//$alertSender->alert("Un message par email");
 
 $smsSender = new AlertSender(new SmsSender());
-$smsSender->alert("Un message par sms");
+//$smsSender->alert("Un message par sms");
+
+/**
+ * Singleton
+ */
+$dms = \App\Singleton\DatabaseManagerSingleton::getInstance();
+var_dump($dms === \App\Singleton\DatabaseManagerSingleton::getInstance());
 
 ?>
 <!DOCTYPE html>
