@@ -1,39 +1,34 @@
 <?php
+
 require './vendor/autoload.php';
 
-use App\Factory\ProductFactory;
-
 use App\Adapter\Book;
-use App\Adapter\EBookAdapter;
 use App\Adapter\EBook;
-
-use App\Decorator\Message;
-use App\Decorator\BoldMessage;
-use App\Decorator\TitleMessage;
-
-use App\Command\Stock;
+use App\Adapter\EBookAdapter;
+use App\Command\Broker;
 use App\Command\BuyStock;
 use App\Command\SellStock;
-use App\Command\Broker;
-
+use App\Command\Stock;
+use App\Decorator\BoldMessage;
+use App\Decorator\Message;
+use App\Decorator\TitleMessage;
+use App\DependencyInjection\AlertSender;
+use App\DependencyInjection\EmailSender;
+use App\DependencyInjection\SmsSender;
+use App\Factory\ProductFactory;
 use App\Observer\Article;
 use App\Observer\ArticleManager;
 use App\Observer\Notify;
 use App\Observer\SearchEngine;
-
-use App\Prototype\SquarePrototype;
 use App\Prototype\CirclePrototype;
-
+use App\Prototype\SquarePrototype;
 use App\Proxy\ImageProxy;
-
-use App\Strategy\FileWriter;
-use App\Strategy\DatabaseWriter;
 use App\Strategy\APIWriter;
 use App\Strategy\ClientWriter;
+use App\Strategy\DatabaseWriter;
+use App\Strategy\FileWriter;
+use App\Singleton\DatabaseManagerSingleton;
 
-use App\DependencyInjection\AlertSender;
-use App\DependencyInjection\EmailSender;
-use App\DependencyInjection\SmsSender;
 
 /**
  * Factory
@@ -139,21 +134,4 @@ $smsSender = new AlertSender(new SmsSender());
 /**
  * Singleton
  */
-$dms = \App\Singleton\DatabaseManagerSingleton::getInstance();
-var_dump($dms === \App\Singleton\DatabaseManagerSingleton::getInstance());
-
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Mon blog</title>
-</head>
-
-<body>
-    <div>
-        <h1>Mon blog</h1>
-        <p>En construction</p>
-    </div>
-</body>
-</html>
+$dms = DatabaseManagerSingleton::getInstance();
