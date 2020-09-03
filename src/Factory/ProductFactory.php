@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Product;
+namespace App\Factory;
 
 
 class ProductFactory extends AbstractProductCreator

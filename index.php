@@ -3,7 +3,7 @@
 require './vendor/autoload.php';
 
 use App\Config\Database;
-use App\Product\ProductFactory;
+use App\Factory\ProductFactory;
 
 $productA = ProductFactory::create('A', 15);
 var_dump($productA->computeTtc());

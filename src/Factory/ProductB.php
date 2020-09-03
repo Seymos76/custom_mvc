@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Product;
+namespace App\Factory;
 
 
 class ProductB extends AbstractProduct implements ProductInterface
