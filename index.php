@@ -2,12 +2,14 @@
 
 require './vendor/autoload.php';
 
-use App\Config\Database;
 use App\Factory\ProductFactory;
 use App\Adapter\Book;
 use App\Adapter\EBookAdapter;
 use App\Adapter\EBook;
 use App\Adapter\BookManager;
+use App\Decorator\Message;
+use App\Decorator\BoldMessage;
+use App\Decorator\TitleMessage;
 
 $productA = ProductFactory::create('A', 15);
 //var_dump($productA->computeTtc());
@@ -18,17 +20,18 @@ $productB = ProductFactory::create('B', null);
 $book = new Book();
 $book->open();
 $book->turnPage();
-var_dump($book->getPage());
-BookManager::updateBook($book);
+//BookManager::updateBook($book);
 
 $eBook = new EBookAdapter(new EBook());
 $eBook->open();
 $eBook->turnPage();
-var_dump($eBook->getPage());
-BookManager::updateBook($eBook);
+//BookManager::updateBook($eBook);
 
-$db = new Database();
-//var_dump($db->getConnexion());
+$message = new Message("Un message");
+$decoratedMessage = new BoldMessage($message);
+$decoratedMessage->display();
+$decoratedTitle = new TitleMessage($message);
+$decoratedTitle->display();
 
 ?>
 <!DOCTYPE html>
