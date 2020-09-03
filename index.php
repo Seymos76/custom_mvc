@@ -16,6 +16,10 @@ use App\Command\Broker;
 use App\Prototype\SquarePrototype;
 use App\Prototype\CirclePrototype;
 use App\Proxy\ImageProxy;
+use App\Strategy\FileWriter;
+use App\Strategy\DatabaseWriter;
+use App\Strategy\APIWriter;
+use App\Strategy\ClientWriter;
 
 /**
  * Factory
@@ -82,8 +86,19 @@ for ($i = 0; $i < 5; $i++) {
 $imageProxy = new ImageProxy('/home/image.jpg');
 $imageProxy->display();
 $imageProxy->display();
-$imageProxy->display();
-$imageProxy->display();
+
+/**
+ * Strategy
+ */
+$data = ['data1', 'data2', 'data3'];
+$fileWriter = new ClientWriter(new FileWriter());
+$fileWriter->write($data);
+
+$dbWriter = new ClientWriter(new DatabaseWriter());
+$dbWriter->write($data);
+
+$apiWriter = new ClientWriter(new APIWriter());
+$apiWriter->write($data);
 
 ?>
 <!DOCTYPE html>
