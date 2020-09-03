@@ -8,7 +8,7 @@ class APIWriter implements WriterInterface
 {
     public function write($data)
     {
-        echo "Envoie les données vers une API externe";
+        echo "Envoie les données vers une API externe<br>";
     }
 
 }

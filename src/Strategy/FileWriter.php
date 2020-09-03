@@ -8,6 +8,6 @@ class FileWriter implements WriterInterface
 {
     public function write($data)
     {
-        echo "Envoie les données dans un fichier";
+        echo "Envoie les données dans un fichier<br>";
     }
 }
