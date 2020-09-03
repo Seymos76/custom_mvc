@@ -6,10 +6,13 @@ use App\Factory\ProductFactory;
 use App\Adapter\Book;
 use App\Adapter\EBookAdapter;
 use App\Adapter\EBook;
-use App\Adapter\BookManager;
 use App\Decorator\Message;
 use App\Decorator\BoldMessage;
 use App\Decorator\TitleMessage;
+use App\Command\Stock;
+use App\Command\BuyStock;
+use App\Command\SellStock;
+use App\Command\Broker;
 
 $productA = ProductFactory::create('A', 15);
 //var_dump($productA->computeTtc());
@@ -32,6 +35,22 @@ $decoratedMessage = new BoldMessage($message);
 $decoratedMessage->display();
 $decoratedTitle = new TitleMessage($message);
 $decoratedTitle->display();
+
+$stock = new Stock(15);
+$buyStock = new BuyStock($stock);
+$sellStock = new SellStock($stock);
+
+$broker = new Broker();
+$broker->takeOrder($sellStock);
+$broker->takeOrder($sellStock);
+$broker->takeOrder($buyStock);
+$broker->takeOrder($buyStock);
+$broker->takeOrder($sellStock);
+$broker->takeOrder($buyStock);
+$broker->takeOrder($sellStock);
+$broker->takeOrder($buyStock);
+
+$broker->placeOrders();
 
 ?>
 <!DOCTYPE html>
