@@ -15,6 +15,7 @@ use App\Command\SellStock;
 use App\Command\Broker;
 use App\Prototype\SquarePrototype;
 use App\Prototype\CirclePrototype;
+use App\Proxy\ImageProxy;
 
 /**
  * Factory
@@ -57,7 +58,7 @@ $sellStock = new SellStock($stock);
 $broker = new Broker();
 $broker->takeOrder($sellStock);
 $broker->takeOrder($buyStock);
-$broker->placeOrders();
+//$broker->placeOrders();
 
 /**
  * Prototype
@@ -67,13 +68,22 @@ $circleProto = new CirclePrototype();
 for ($i = 0; $i < 5; $i++) {
     $square = clone $squareProto;
     $square->setPerimeter(random_int(1,500));
-    var_dump($square);
+//    var_dump($square);
 }
 for ($i = 0; $i < 5; $i++) {
     $circle = clone $circleProto;
     $circle->setPerimeter(random_int(1,500));
-    var_dump($circle);
+//    var_dump($circle);
 }
+
+/**
+ * Proxy
+ */
+$imageProxy = new ImageProxy('/home/image.jpg');
+$imageProxy->display();
+$imageProxy->display();
+$imageProxy->display();
+$imageProxy->display();
 
 ?>
 <!DOCTYPE html>
