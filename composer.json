@@ -17,6 +17,7 @@
     },
     "require": {
         "monolog/monolog": "^2.0@dev",
-        "symfony/http-foundation": "^5.2@dev"
+        "symfony/http-foundation": "^5.2@dev",
+        "symfony/routing": "^5.2@dev"
     }
 }

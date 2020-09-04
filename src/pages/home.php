@@ -1,8 +1,3 @@
-<?php
-
-$page = $request->getPathInfo();
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,7 +12,7 @@ $page = $request->getPathInfo();
     <a href="/articles">Articles</a>
 </nav>
     <div>
-        <h1>Mon blog - <?= htmlspecialchars($page, ENT_QUOTES, 'UTF-8') ?></h1>
+        <h1>Mon blog - <?= htmlspecialchars($request->getPathInfo(), ENT_QUOTES, 'UTF-8') ?></h1>
         <p>En construction</p>
     </div>
 </body>

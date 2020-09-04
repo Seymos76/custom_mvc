@@ -3,28 +3,28 @@ require_once __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
 
 $request = Request::createFromGlobals();
+$routes = include __DIR__.'/src/app.php';
 
-$response = new Response();
-
-$map = [
-    '/' => __DIR__ . '/src/pages/home.php',
-    '/home' => __DIR__ . '/src/pages/home.php',
-    '/yeah' => __DIR__ . '/src/pages/yeah.php',
-    '/articles' => __DIR__ . '/src/pages/articles.php',
-];
+$context = new RequestContext();
+$context->fromRequest($request);
+$matcher = new UrlMatcher($routes, $context);
 
 $path = $request->getPathInfo();
-var_dump($path);
-if (isset($map[$path])) {
+
+try {
+    extract($matcher->match($path), EXTR_SKIP);
     ob_start();
-    include $map[$path];
-    $response->setStatusCode(Response::HTTP_OK);
-    $response->setContent(ob_get_clean());
-} else {
-    $response->setStatusCode(400);
-    $response->setContent('Not Found !');
+    include sprintf(__DIR__.'/src/pages/%s.php', $_route);
+
+    $response = new Response(ob_get_clean());
+} catch (SymfonyComponentRoutingExceptionResourceNotFoundException $exception) {
+    $response = new Response('Not Found', Response::HTTP_NOT_FOUND);
+} catch (Exception $exception) {
+    $response = new Response('An error occurred', 500);
 }
 
 $response->send();
