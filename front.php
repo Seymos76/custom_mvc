@@ -2,29 +2,32 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
+use App\Core\Install\RoutesLoader;
+use App\Core\Install\ConfigurationLoader;
+use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+use App\Boot\Framework;
 
+// init request
 $request = Request::createFromGlobals();
-$routes = include __DIR__.'/src/app.php';
+// load routes
+$api_routes = include __DIR__ . '/src/_routes/_api_routes.php';
+$public_routes = include __DIR__ . '/src/_routes/_public_routes.php';
+$route_collection = RoutesLoader::getRoutes($public_routes, $api_routes);
 
+// get request context
 $context = new RequestContext();
-$context->fromRequest($request);
-$matcher = new UrlMatcher($routes, $context);
+// create matcher to apply on routes
+$matcher = new UrlMatcher($route_collection, $context);
 
-$path = $request->getPathInfo();
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
 
-try {
-    extract($matcher->match($path), EXTR_SKIP);
-    ob_start();
-    include sprintf(__DIR__.'/src/pages/%s.php', $_route);
+$framework = new Framework($matcher, $controllerResolver, $argumentResolver);
+$response = $framework->handle($request);
 
-    $response = new Response(ob_get_clean());
-} catch (SymfonyComponentRoutingExceptionResourceNotFoundException $exception) {
-    $response = new Response('Not Found', Response::HTTP_NOT_FOUND);
-} catch (Exception $exception) {
-    $response = new Response('An error occurred', 500);
-}
-
+$securityConfig = ConfigurationLoader::load('security', true);
+$doctrineConfig = ConfigurationLoader::load('doctrine', true);
 $response->send();
